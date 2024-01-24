@@ -8,9 +8,9 @@ import java.io.Serializable;
  * @version v1.1
  */
 public class Articulo implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    private int id;
+   
+	private static final long serialVersionUID = -3373007919436317548L;
+	private int id;
     private String nombre;
     private String descripcion;
     private int stock;
