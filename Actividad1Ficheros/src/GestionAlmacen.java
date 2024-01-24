@@ -1,7 +1,9 @@
 import java.io.*;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 
 public class GestionAlmacen {
     
@@ -63,6 +65,9 @@ public class GestionAlmacen {
 	                    listarArticulos();
 	                    break;
 	                case 5:
+	                	exportarArticulosCSV();
+	                    break;
+	                case 6:
 	                    terminarPrograma();
 	                    break;
 	                default:
@@ -130,7 +135,8 @@ public class GestionAlmacen {
 		System.out.println("2. Consultar película por título ");
 		System.out.println("3. Consultar películas por director ");
 		System.out.println("4. Añadir pelicula ");
-		System.out.println("5. Salir de la aplicación");
+		System.out.println("5. Exportar a CSV");
+		System.out.println("6. Salir de la aplicación");
 		System.out.println("----------------------------------------------------");
 		System.out.println("Introduzca una opción del 1 al 5, si quiere salir 5");
 		System.out.println("----------------------------------------------------");
@@ -144,23 +150,13 @@ public class GestionAlmacen {
 	        leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
 	    }
 		
-		if (opcion<1 || opcion > 5) {
+		if (opcion<1 || opcion > 6) {
 			System.out.println("OPCION INCORRECTA");
 		}
 		
 		return opcion;	
 	}
-    private static int obtenerOpcionUsuario() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Ingrese su opción: ");
-        try {
-            return scanner.nextInt();
-        } catch (InputMismatchException e) {
-            // Manejo de excepción en caso de que el usuario ingrese un valor no entero
-            scanner.nextLine(); // Limpiar el búfer del scanner
-            return -1; // Opción no válida
-        }
-    }
+
 
     private static void agregarArticulo() {
     	// Limpiar el búfer de nueva línea
@@ -252,6 +248,31 @@ public class GestionAlmacen {
         }
 
         System.out.println("Programa terminado.");
+    }
+    
+    private static void exportarArticulosCSV() {
+        System.out.println("Exportando artículos a archivo CSV...");
+
+        try (FileWriter csvWriter = new FileWriter("articulos.csv")) {
+            // Escribir encabezados al archivo CSV
+            csvWriter.append("ID,Nombre,Descripción,Stock,Precio");
+            csvWriter.append("\n");
+
+            // Escribir cada artículo al archivo CSV
+            for (Articulo articulo : articulos) {
+                csvWriter.append(String.valueOf(articulo.getId())).append(",");
+                csvWriter.append(articulo.getNombre()).append(",");
+                csvWriter.append(articulo.getDescripcion()).append(",");
+                csvWriter.append(String.valueOf(articulo.getStock())).append(",");
+                csvWriter.append(String.valueOf(articulo.getPrecio()));
+                csvWriter.append("\n");
+            }
+
+            System.out.println("Artículos exportados correctamente a 'articulos.csv'.");
+        } catch (IOException e) {
+            System.out.println("Error al exportar artículos a archivo CSV.");
+            e.printStackTrace();
+        }
     }
 
 }
