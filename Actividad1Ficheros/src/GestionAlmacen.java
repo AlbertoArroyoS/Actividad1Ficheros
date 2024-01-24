@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.opencsv.CSVWriter;
+
 /**
  * Clase que gestiona un almacen de articulos con funcionalidades como agregar,
  * borrar, consultar, listar, exportar a CSV y terminar el programa.
@@ -69,7 +71,13 @@ public class GestionAlmacen {
 	                    listarArticulos();
 	                    break;
 	                case 5:
-	                	exportarArticulosCSV();
+	                	try {
+	                		exportarArticulosCSV();
+	                		//exportarArticulosCSV2();
+;	                	}catch (Exception e){
+	                		System.out.println("El archivo csv ya existe");
+	                	}
+	                	
 	                    break;
 	                case 6:
 	                    terminarPrograma();
@@ -101,7 +109,7 @@ public class GestionAlmacen {
 		System.out.println("5. Exportar a CSV");
 		System.out.println("6. Terminar el programa");
 		System.out.println("----------------------------------------------------");
-		System.out.println("Introduzca una opción del 1 al 5, si quiere salir 5");
+		System.out.println("Introduzca una opción del 1 al 6, si quiere salir 6");
 		System.out.println("----------------------------------------------------");
 		
 		try {
@@ -134,7 +142,7 @@ public class GestionAlmacen {
 		} catch (FileNotFoundException e) {
 	        e.printStackTrace();
 	    } catch (EOFException e) {
-	        System.out.println("Se alcanzó el final del archivo. No hay más objetos para leer.");
+	        System.out.println("El archivo .dat existe, pero no contiene datos.");
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    } catch (ClassNotFoundException e) {
@@ -158,10 +166,11 @@ public class GestionAlmacen {
             System.out.println("Ya existe un artículo con el ID " + id + ". No se puede agregar.");
             id = obtenerEntero("Introduzca Id del articulo: ");
         }
+        leer.nextLine();
         art.setId(id);
         System.out.println("Introduzca nombre del articulo: ");
-        String nombre = leer.next();
-        leer.nextLine();
+        String nombre = leer.nextLine();
+        
         art.setNombre(nombre);
         System.out.println("Introduzca descripcion del articulo: ");
         String descripcion = leer.nextLine();
@@ -255,9 +264,50 @@ public class GestionAlmacen {
     }
     
     /**
-     * Metodo que exporta los articulos a un archivo CSV.
+     * Metodo que exporta los articulos a un archivo CSV. Utilizo la libreria Opencsv.
+     * Se utiliza una variable numeroSecuencial que se incrementa hasta que se encuentra un nombre 
+     * de archivo que no existe. Cada vez que se incrementa, se verifica si el nuevo nombre de archivo existe
      */
     private static void exportarArticulosCSV() {
+        System.out.println("Exportando artículos a archivo CSV...");
+
+        int numeroSecuencial = 1;
+        String nombreArchivoBase = "articulos";
+        String extension = ".csv";
+        String nombreArchivo = nombreArchivoBase + extension;
+
+        // Iterar hasta encontrar un nombre de archivo que no existe
+        while (new File(nombreArchivo).exists()) {
+            numeroSecuencial++;
+            nombreArchivo = nombreArchivoBase + numeroSecuencial + extension;
+        }
+
+        try (CSVWriter csvWriter = new CSVWriter(new FileWriter(nombreArchivo))) {
+            // Escribir encabezados al archivo CSV
+            csvWriter.writeNext(new String[]{"ID", "Nombre", "Descripcion", "Stock", "Precio"});
+
+            // Escribir cada artículo al archivo CSV
+            for (Articulo articulo : articulos) {
+                String[] data = {
+                    String.valueOf(articulo.getId()),
+                    articulo.getNombre(),
+                    articulo.getDescripcion(),
+                    String.valueOf(articulo.getStock()),
+                    String.valueOf(articulo.getPrecio())
+                };
+                csvWriter.writeNext(data);
+            }
+
+            System.out.println("Artículos exportados correctamente a '" + nombreArchivo + "'.");
+        } catch (IOException e) {
+            System.out.println("Error al exportar artículos a archivo CSV.");
+            e.printStackTrace();
+        }
+    }
+    
+    //Otro metodo alternativo para los CSV con FileWriter
+    
+    private static void exportarArticulosCSV2() {
         System.out.println("Exportando artículos a archivo CSV...");
 
         try (FileWriter csvWriter = new FileWriter("articulos.csv")) {
