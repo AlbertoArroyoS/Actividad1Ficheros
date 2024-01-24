@@ -25,18 +25,18 @@ public class GestionAlmacen {
     	if (!file.exists()) {// Averiguamos si existe
 			//Creamos el fichero
 			file.createNewFile();
-			//También podemos crear un directorio, normalmente le quitamos la 
-			//extension al fichero (fn)
-			// fn.mkdir();
-			
+	
 			System.out.println("Creado el archivo " + file.getName());
 		}else {
+			System.out.println("Cargado el archivo " + file.getName());
 			try {
 				cargarArticulosDesdeArchivo(file);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			
 		}
     	boolean continuar = true;
 
@@ -44,12 +44,9 @@ public class GestionAlmacen {
         	//Cargamos el menu inicial y recuperamos la opción elegida
 			int opcion = menu();
 			//Si la opcion está fuera del rango de opciones se repetira el menu
-			while (opcion<1 || opcion>5){
+			while (opcion<1 || opcion>6){
 				opcion = menu();
-			}if (opcion == 5) {
-				System.out.println("Salir del programa");
-				continuar=false;
-			}else {
+			}
 
 	            switch (opcion) {
 	                case 1:
@@ -69,74 +66,26 @@ public class GestionAlmacen {
 	                    break;
 	                case 6:
 	                    terminarPrograma();
+	                    continuar=false;
 	                    break;
 	                default:
 	                    System.out.println("Opción no válida. Inténtalo de nuevo.");
 	            }
-			}
+			
         } while (continuar);
     }
-
-    private static void cargarArticulosDesdeArchivo(File file) throws ClassNotFoundException {
-    	
-		try (FileInputStream fis = new FileInputStream(file);
-			 ObjectInputStream escritor = new ObjectInputStream(fis);) {
-            articulos = (ArrayList<Articulo>) escritor.readObject();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		
-		/*
-		//-------------
-		// Abrir el fichero
-		// Lee el objeto guardado en el archivo alumno.dat
-		try (FileInputStream file = new FileInputStream("articulos.dat");
-			ObjectInputStream escritor = new ObjectInputStream(file);){
-			
-			Articulo art1 = (Articulo) escritor.readObject();//importante castearlo, ya que read objet
-														//devuelve una referencia de tipo Object
-			System.out.println("Nombre del articulo: " + art1.getNombre());
-			System.out.println("Id del articulo: " + art1.getId());
-			System.out.println("Descripción del articulo: " + art1.getDescripcion());
-			System.out.println("Stock del articulo: " + art1.getStock());
-			System.out.println("Precio del articulo: " + art1.getDescripcion());
-			
-			
-			
-		} catch (IOException e) {
-			System.out.println("Error al leer en el fichero");
-			e.printStackTrace();
-		}*/
-    }
-/*
-    private static void mostrarMenu() {
-        System.out.println("\n=== Menú ===");
-        System.out.println("1. Añadir nuevo artículo");
-        System.out.println("2. Borrar artículo por id");
-        System.out.println("3. Consultar artículo por id");
-        System.out.println("4. Listado de todos los artículos");
-        System.out.println("5. Terminar el programa");
-    }
-*/
     public static int menu() {
 		
 		int opcion = 0;
 		System.out.println("----------------------------------------------------");
 		System.out.println("|                      MENU                        |");
 		System.out.println("----------------------------------------------------");
-		System.out.println("1. Consultar pelicula por ID");
-		System.out.println("2. Consultar película por título ");
-		System.out.println("3. Consultar películas por director ");
-		System.out.println("4. Añadir pelicula ");
+		System.out.println("1. Añadir nuevo artículo");
+		System.out.println("2. Borrar artículo por id ");
+		System.out.println("3. Consulta artículo por id ");
+		System.out.println("4. Listado de todos los artículos");
 		System.out.println("5. Exportar a CSV");
-		System.out.println("6. Salir de la aplicación");
+		System.out.println("6. Terminar el programa");
 		System.out.println("----------------------------------------------------");
 		System.out.println("Introduzca una opción del 1 al 5, si quiere salir 5");
 		System.out.println("----------------------------------------------------");
@@ -157,27 +106,54 @@ public class GestionAlmacen {
 		return opcion;	
 	}
 
+    private static void cargarArticulosDesdeArchivo(File file) throws ClassNotFoundException {
+    	
+		try (FileInputStream fis = new FileInputStream(file);
+			 ObjectInputStream escritor = new ObjectInputStream(fis);) {
+            articulos = (ArrayList<Articulo>) escritor.readObject();
+		} catch (FileNotFoundException e) {
+	        e.printStackTrace();
+	    } catch (EOFException e) {
+	        System.out.println("Se alcanzó el final del archivo. No hay más objetos para leer.");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	    }
+		
+    }
+
+    
+
 
     private static void agregarArticulo() {
     	// Limpiar el búfer de nueva línea
     	//leer.nextLine();
     	
         Articulo art = new Articulo();
-        System.out.println("Introduzca Id del articulo: ");
-        int id = leer.nextInt();
+
+        int id = obtenerEntero("Introduzca Id del articulo: ");
+     // Verificar si ya existe un artículo con el mismo ID
+        while (existeArticuloConID(id)) {
+            System.out.println("Ya existe un artículo con el ID " + id + ". No se puede agregar.");
+            id = obtenerEntero("Introduzca Id del articulo: ");
+        }
         art.setId(id);
         System.out.println("Introduzca nombre del articulo: ");
         String nombre = leer.next();
+        leer.nextLine();
         art.setNombre(nombre);
         System.out.println("Introduzca descripcion del articulo: ");
         String descripcion = leer.nextLine();
         art.setDescripcion(descripcion);
-        System.out.println("Introduzca stock del articulo: ");
-        int stock = leer.nextInt();
+        int stock = obtenerEntero("Introduzca stock del articulo: ");
         art.setStock(stock);
-        System.out.println("Introduzca precio del articulo: ");
-        double precio = leer.nextDouble();
+        double precio = obtenerDouble("Introduzca precio del articulo: ");
         art.setPrecio(precio);
+        
+        articulos.add(art);
+        
+        
     }
 
     private static void borrarArticulo() {
@@ -274,5 +250,52 @@ public class GestionAlmacen {
             e.printStackTrace();
         }
     }
+    
+    private static boolean existeArticuloConID(int id) {
+        for (Articulo articulo : articulos) {
+            if (articulo.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    //metodos para validar la entrada de datos
+    
+ // Método para obtener un entero desde la entrada del usuario con manejo de excepciones
+    private static int obtenerEntero(String mensaje) {
+        int valor = 0;
+        boolean entradaValida = false;
+        while (!entradaValida) {
+            try {
+                System.out.println(mensaje);
+                valor = leer.nextInt();
+                entradaValida = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada no válida. Ingrese un número entero.");
+                leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
+            }
+        }
+        return valor;
+    }
+
+    // Método para obtener un double desde la entrada del usuario con manejo de excepciones
+    private static double obtenerDouble(String mensaje) {
+        double valor = 0;
+        boolean entradaValida = false;
+        while (!entradaValida) {
+            try {
+                System.out.println(mensaje);
+                valor = leer.nextDouble();
+                entradaValida = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Entrada no válida. Ingrese un número decimal.");
+                leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
+            }
+        }
+        return valor;
+    }
+    
+
 
 }
