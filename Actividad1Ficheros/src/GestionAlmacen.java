@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
+/**
+ * Clase que gestiona un almacen de articulos con funcionalidades como agregar,
+ * borrar, consultar, listar, exportar a CSV y terminar el programa.
+ * 
+ * @author Alberto Arroyo Santofimia
+ * 
+ * @version v1.1
+ */
 public class GestionAlmacen {
     
 	private static ArrayList<Articulo> articulos = new ArrayList<>();
@@ -74,6 +81,13 @@ public class GestionAlmacen {
 			
         } while (continuar);
     }
+    
+    /**
+     * Metodo que muestra un menu de opciones y devuelve la opción elegida por el
+     * usuario.
+     * 
+     * @return Opcion elegida por el usuario.
+     */
     public static int menu() {
 		
 		int opcion = 0;
@@ -105,7 +119,13 @@ public class GestionAlmacen {
 		
 		return opcion;	
 	}
-
+    /**
+     * Metodo que carga los artículos desde un archivo.
+     * 
+     * @param file representa el archivo desde el cual cargar los articulos.
+     * @throws ClassNotFoundException Si no se encuentra la clase Articulo al leer
+     *                                desde el archivo.
+     */
     private static void cargarArticulosDesdeArchivo(File file) throws ClassNotFoundException {
     	
 		try (FileInputStream fis = new FileInputStream(file);
@@ -123,9 +143,9 @@ public class GestionAlmacen {
 		
     }
 
-    
-
-
+    /**
+     * Metodo que agrega un nuevo articulo a la lista.
+     */
     private static void agregarArticulo() {
     	// Limpiar el búfer de nueva línea
     	//leer.nextLine();
@@ -155,7 +175,9 @@ public class GestionAlmacen {
         
         
     }
-
+    /**
+     * Metodo que borra un artículo de la lista.
+     */
     private static void borrarArticulo() {
         System.out.println("Introduzca el ID del artículo a borrar: ");
         int idABorrar = leer.nextInt();
@@ -177,7 +199,9 @@ public class GestionAlmacen {
             System.out.println("No se encontró ningún artículo con el ID " + idABorrar);
         }
     }
-
+    /**
+     * Metodo que consulta un articulo por su ID.
+     */
     private static void consultarArticulo() {
         System.out.println("Introduzca el ID del artículo a consultar: ");
         int idAConsultar = leer.nextInt();
@@ -204,14 +228,18 @@ public class GestionAlmacen {
         }
     }
 
-
+    /**
+     * Metodo que lista todos los articulos.
+     */
     private static void listarArticulos() {
         System.out.println("\n=== Listado de Artículos ===");
         for (Articulo articulo : articulos) {
             System.out.println(articulo);
         }
     }
-
+    /**
+     * Método que guarda la informacion en un archivo .dat y termina el programa.
+     */
     private static void terminarPrograma() {
         System.out.println("Guardando información en el archivo...");
 
@@ -226,6 +254,9 @@ public class GestionAlmacen {
         System.out.println("Programa terminado.");
     }
     
+    /**
+     * Metodo que exporta los articulos a un archivo CSV.
+     */
     private static void exportarArticulosCSV() {
         System.out.println("Exportando artículos a archivo CSV...");
 
@@ -251,6 +282,12 @@ public class GestionAlmacen {
         }
     }
     
+    /**
+     * Metodo que verifica si existe un artículo con un ID especifico.
+     * 
+     * @param id ID del articulo a verificar.
+     * @return "true" si el artículo existe, "false" en caso contrario.
+     */
     private static boolean existeArticuloConID(int id) {
         for (Articulo articulo : articulos) {
             if (articulo.getId() == id) {
@@ -261,8 +298,14 @@ public class GestionAlmacen {
     }
     
     //metodos para validar la entrada de datos
-    
- // Método para obtener un entero desde la entrada del usuario con manejo de excepciones
+        
+    /**
+     * Metodo para obtener un entero desde la entrada del usuario con manejo de
+     * excepciones.
+     * 
+     * @param mensaje Mensaje a mostrar al usuario para solicitar la entrada.
+     * @return Valor entero ingresado por el usuario.
+     */
     private static int obtenerEntero(String mensaje) {
         int valor = 0;
         boolean entradaValida = false;
@@ -278,8 +321,14 @@ public class GestionAlmacen {
         }
         return valor;
     }
-
-    // Método para obtener un double desde la entrada del usuario con manejo de excepciones
+    
+    /**
+     * Metodo para obtener un double desde la entrada del usuario con manejo de
+     * excepciones.
+     * 
+     * @param mensaje Mensaje a mostrar al usuario para solicitar la entrada.
+     * @return Valor decimal ingresado por el usuario.
+     */
     private static double obtenerDouble(String mensaje) {
         double valor = 0;
         boolean entradaValida = false;
@@ -296,6 +345,4 @@ public class GestionAlmacen {
         return valor;
     }
     
-
-
 }

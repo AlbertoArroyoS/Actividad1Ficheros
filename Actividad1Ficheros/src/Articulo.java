@@ -1,5 +1,12 @@
 import java.io.Serializable;
-
+/**
+ * La clase Articulo representa un artículo con los siguientes atributos: ID, nombre, descripción, stock y precio.
+ * Implementa la interfaz Serializable para permitir la serialización de objetos de esta clase.
+ * 
+ * @author Alberto Arroyo Santofimia
+ * 
+ * @version v1.1
+ */
 public class Articulo implements Serializable {
     private static final long serialVersionUID = 1L;
 
