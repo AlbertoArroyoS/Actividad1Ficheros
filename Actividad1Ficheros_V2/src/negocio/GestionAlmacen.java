@@ -23,18 +23,18 @@ public class GestionAlmacen {
     /**
      * Método que guarda la informacion en un archivo .dat y termina el programa.
      */
-    public void terminarPrograma(ArrayList articulos) {
+    public boolean terminarPrograma(ArrayList<Articulo> articulos) {
         System.out.println("Guardando información en el archivo...");
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("articulos.dat"))) {
-            oos.writeObject(articulos);
-            System.out.println("Información guardada correctamente en el archivo.");
+            oos.writeObject(articulos);           
+            return true;
         } catch (IOException e) {
             System.out.println("Error al guardar la información en el archivo.");
             e.printStackTrace();
+            return false;
         }
-
-        System.out.println("Programa terminado.");
+       
     }
     
     /**
@@ -42,8 +42,8 @@ public class GestionAlmacen {
      * Se utiliza una variable numeroSecuencial que se incrementa hasta que se encuentra un nombre 
      * de archivo que no existe. Cada vez que se incrementa, se verifica si el nuevo nombre de archivo existe
      */
-    public void exportarArticulosCSV(ArrayList articulos) {
-        System.out.println("Exportando artículos a archivo CSV...");
+    public boolean exportarArticulosCSV(ArrayList<Articulo> articulos) {
+        
 
         int numeroSecuencial = 1;
         String nombreArchivoBase = "articulos";
@@ -71,17 +71,17 @@ public class GestionAlmacen {
                 };
                 csvWriter.writeNext(data);
             }
+            return true;
 
-            System.out.println("Artículos exportados correctamente a '" + nombreArchivo + "'.");
-        } catch (IOException e) {
-            System.out.println("Error al exportar artículos a archivo CSV.");
+        } catch (IOException e) {          
             e.printStackTrace();
+            return false;
         }
     }
     
     //Otro metodo alternativo para los CSV con FileWriter
     
-    public void exportarArticulosCSV2() {
+    public void exportarArticulosCSV2(ArrayList<Articulo> articulos) {
         System.out.println("Exportando artículos a archivo CSV...");
 
         try (FileWriter csvWriter = new FileWriter("articulos.csv")) {
@@ -127,7 +127,7 @@ public class GestionAlmacen {
                 entradaValida = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Ingrese un número entero.");
-                leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
+               // leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
             }
         }
         return valor;
@@ -150,7 +150,7 @@ public class GestionAlmacen {
                 entradaValida = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Ingrese un número decimal.");
-                leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
+               // leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
             }
         }
         return valor;

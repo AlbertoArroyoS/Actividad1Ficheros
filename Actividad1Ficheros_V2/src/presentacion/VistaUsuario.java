@@ -92,16 +92,25 @@ public class VistaUsuario {
 		
 	                    break;
 	                case 5:
+	                	System.out.println("Exportando artículos a archivo CSV...");
 	                	try {
-	                		gestionAlmacen.exportarArticulosCSV(daoArticulo.devolverArrayList());
-	                		//exportarArticulosCSV2();
+	                		if(gestionAlmacen.exportarArticulosCSV(daoArticulo.devolverArrayList())) {
+	                			System.out.println("Artículos exportados correctamente");
+	                		}else {
+	                			System.out.println("Error al exportar artículos a archivo CSV.");
+	                		}
+	                		
 ;	                	}catch (Exception e){
 	                		System.out.println("El archivo csv ya existe");
 	                	}
 	                	
 	                    break;
 	                case 6:
-	                	gestionAlmacen.terminarPrograma(daoArticulo.devolverArrayList());
+	                	if(gestionAlmacen.terminarPrograma(daoArticulo.devolverArrayList())){
+	                		System.out.println("Información guardada correctamente en el archivo.");
+	                	}else {
+	                		System.out.println("Programa terminado.");
+	                	}
 	                    continuar=false;
 	                    break;
 	                default:
