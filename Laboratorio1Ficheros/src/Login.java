@@ -128,7 +128,6 @@ public class Login {
      */
 	private static boolean verificarCredenciales(String nombreUsuario, String passUsuario) {
         //leo el archivo y lo separo en un String Array, en la posicion 0 usuario y en la 1 contraseña
-		//try (BufferedReader br = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
 		try (FileReader fr = new FileReader(NOMBRE_FICHERO);
 				 BufferedReader br = new BufferedReader(fr);) {    
 			String linea;
@@ -151,13 +150,18 @@ public class Login {
 	//metodo para comprobar si el usuario existe
 	
 	private static boolean usuarioExistente(String nombreUsuario) {
-	    //try (BufferedReader br = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
+	    //leo el archivo, lo paso a un String Array, y compruebo la posicion 0, que es el usuario
 		try (FileReader fr = new FileReader(NOMBRE_FICHERO);
 				 BufferedReader br = new BufferedReader(fr);) {
 	        String linea;
 	        while ((linea = br.readLine()) != null) {
-	            String[] partes = linea.split("/");
+	        	//verifico si, después de dividir la línea utilizando linea.split("/"), se obtienen exactamente dos partes. 
+	            //Si partes.length es diferente de 2, significa que el formato no es el esperado 
+	        	//y la línea no es válida para representar un usuario en el archivo.
+	        	String[] partes = linea.split("/");
 	            if (partes.length == 2) {
+	            	//asigna la primera parte (índice 0) al String usuario. En el formato "usuario/contraseña", 
+	            	//la primera parte es el nombre de usuario.
 	                String usuario = partes[0];
 	                if (usuario.equalsIgnoreCase(nombreUsuario)) {
 	                    return true; // Usuario encontrado
