@@ -20,6 +20,7 @@ public class Login {
 		
 		String nombreUsuario;
 		String passUsuario;
+		
 		boolean continuar = true;
 		
 		do {
@@ -127,8 +128,10 @@ public class Login {
      */
 	private static boolean verificarCredenciales(String nombreUsuario, String passUsuario) {
         //leo el archivo y lo separo en un String Array, en la posicion 0 usuario y en la 1 contraseña
-		try (BufferedReader br = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
-            String linea;
+		//try (BufferedReader br = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
+		try (FileReader fr = new FileReader(NOMBRE_FICHERO);
+				 BufferedReader br = new BufferedReader(fr);) {    
+			String linea;
             while ((linea = br.readLine()) != null) {
                 String[] partes = linea.split("/");
                 if (partes.length == 2) {
