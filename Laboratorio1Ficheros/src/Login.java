@@ -32,7 +32,7 @@ public class Login {
 			}
 
 	            switch (opcion) {
-	                case 1:
+	                case 1://login del usuario, lectura del archivo
 	                	System.out.println("Nombre de usuario");
 	            		nombreUsuario = leer.next();
 	            		System.out.println("Contraseña");
@@ -44,13 +44,13 @@ public class Login {
 	                        System.out.println("Usuario o contraseña incorrectos.");
 	                    }
 	                    break;
-	                case 2:
+	                case 2://nuevo usuario, escritura del archivo si no existe ya
 	                	System.out.println("Nombre de usuario");
 	                    nombreUsuario = leer.next();
 	                    System.out.println("Contraseña");
 	                    passUsuario = leer.next();
 
-	                    // Verificar si el usuario ya existe
+	                    // Verificar si el usuario ya existe y si no existe lo escribo en el archivo
 	                    if (usuarioExistente(nombreUsuario)) {
 	                        System.out.println("El usuario ya existe. No se puede crear.");
 	                    } else {
@@ -151,13 +151,15 @@ public class Login {
 	//metodo para comprobar si el usuario existe
 	
 	private static boolean usuarioExistente(String nombreUsuario) {
-	    try (BufferedReader br = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
+	    //try (BufferedReader br = new BufferedReader(new FileReader(NOMBRE_FICHERO))) {
+		try (FileReader fr = new FileReader(NOMBRE_FICHERO);
+				 BufferedReader br = new BufferedReader(fr);) {
 	        String linea;
 	        while ((linea = br.readLine()) != null) {
 	            String[] partes = linea.split("/");
 	            if (partes.length == 2) {
 	                String usuario = partes[0];
-	                if (usuario.equals(nombreUsuario)) {
+	                if (usuario.equalsIgnoreCase(nombreUsuario)) {
 	                    return true; // Usuario encontrado
 	                }
 	            }
