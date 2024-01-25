@@ -23,7 +23,7 @@ public class GestionAlmacen {
     /**
      * Método que guarda la informacion en un archivo .dat y termina el programa.
      */
-    private static void terminarPrograma(ArrayList articulos) {
+    public void terminarPrograma(ArrayList articulos) {
         System.out.println("Guardando información en el archivo...");
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("articulos.dat"))) {
@@ -42,7 +42,7 @@ public class GestionAlmacen {
      * Se utiliza una variable numeroSecuencial que se incrementa hasta que se encuentra un nombre 
      * de archivo que no existe. Cada vez que se incrementa, se verifica si el nuevo nombre de archivo existe
      */
-    private static void exportarArticulosCSV(ArrayList articulos) {
+    public void exportarArticulosCSV(ArrayList articulos) {
         System.out.println("Exportando artículos a archivo CSV...");
 
         int numeroSecuencial = 1;
@@ -81,7 +81,7 @@ public class GestionAlmacen {
     
     //Otro metodo alternativo para los CSV con FileWriter
     
-    private static void exportarArticulosCSV2() {
+    public void exportarArticulosCSV2() {
         System.out.println("Exportando artículos a archivo CSV...");
 
         try (FileWriter csvWriter = new FileWriter("articulos.csv")) {
@@ -106,20 +106,7 @@ public class GestionAlmacen {
         }
     }
     
-    /**
-     * Metodo que verifica si existe un artículo con un ID especifico.
-     * 
-     * @param id ID del articulo a verificar.
-     * @return "true" si el artículo existe, "false" en caso contrario.
-     */
-    private static boolean existeArticuloConID(int id) {
-        for (Articulo articulo : articulos) {
-            if (articulo.getId() == id) {
-                return true;
-            }
-        }
-        return false;
-    }
+    
     
     //metodos para validar la entrada de datos
         
@@ -130,7 +117,7 @@ public class GestionAlmacen {
      * @param mensaje Mensaje a mostrar al usuario para solicitar la entrada.
      * @return Valor entero ingresado por el usuario.
      */
-    private static int obtenerEntero(String mensaje) {
+    public int obtenerEntero(Scanner leer,String mensaje) {
         int valor = 0;
         boolean entradaValida = false;
         while (!entradaValida) {
@@ -153,7 +140,7 @@ public class GestionAlmacen {
      * @param mensaje Mensaje a mostrar al usuario para solicitar la entrada.
      * @return Valor decimal ingresado por el usuario.
      */
-    private static double obtenerDouble(String mensaje) {
+    public double obtenerDouble(Scanner leer, String mensaje) {
         double valor = 0;
         boolean entradaValida = false;
         while (!entradaValida) {
