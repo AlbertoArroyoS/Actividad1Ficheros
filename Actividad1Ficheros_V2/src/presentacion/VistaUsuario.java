@@ -34,7 +34,7 @@ public class VistaUsuario {
 	public static void main(String[] args) throws IOException {
 		DaoArticulo daoArticulo = new DaoArticulo();
 		GestionAlmacen gestionAlmacen = new GestionAlmacen();
-		
+		//llamo al metodo para verificar si existe el fichero artículos.dat y si no, lo crea
     	daoArticulo.crearFichero();
     	
     	

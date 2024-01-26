@@ -35,7 +35,8 @@ public class DaoArticulo {
 
 		
 	/**
-     * Crea el archivo .dat si no existe y carga los artículos desde el archivo si existe.
+     * Crea el archivo .dat si no existe y si existe, llama al metodo cargarArticulosDesdeArchivo()
+     * que se encarga de carga los artículos desde un archivo .dat
      *
      * @throws IOException Si ocurre un error de entrada/salida.
      */
@@ -247,7 +248,7 @@ public class DaoArticulo {
      * @param articulos representa el ArrayList de objetos Articulo a exportar.
      */
     public void exportarArticulosCSV2(ArrayList<Articulo> articulos) {
-        System.out.println("Exportando artículos a archivo CSV...");
+        //System.out.println("Exportando artículos a archivo CSV...");
 
         try (FileWriter csvWriter = new FileWriter("articulos.csv")) {
             // Escribir encabezados al archivo CSV
@@ -264,7 +265,7 @@ public class DaoArticulo {
                 csvWriter.append("\n");
             }
 
-            System.out.println("Artículos exportados correctamente a 'articulos.csv'.");
+           // System.out.println("Artículos exportados correctamente a 'articulos.csv'.");
         } catch (IOException e) {
             System.out.println("Error al exportar artículos a archivo CSV.");
             e.printStackTrace();
@@ -277,8 +278,7 @@ public class DaoArticulo {
      * @return "true" si la operación se realiza con éxito, "false" si hay un error.
      */
     public boolean guardarDat(ArrayList<Articulo> articulos) {
-        System.out.println("Guardando información en el archivo...");
-
+    	
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("articulos.dat"))) {
             oos.writeObject(articulos);           
             return true;
