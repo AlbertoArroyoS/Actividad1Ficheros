@@ -146,7 +146,7 @@ public class GestionAlmacen {
                 entradaValida = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Ingrese un número entero.");
-               // leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
+               
             }
         }
         return valor;
@@ -169,7 +169,7 @@ public class GestionAlmacen {
                 entradaValida = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Ingrese un número decimal.");
-               // leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
+               
             }
         }
         return valor;
