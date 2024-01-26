@@ -86,11 +86,13 @@ public class GestionAlmacen {
      * @param daoArticulo La instancia de DaoArticulo utilizada para listar los artículos.
      */
     public void listarTodos(DaoArticulo daoArticulo) {
-    	System.out.println("\n=== Listado de Artículos ===");
+
+		System.out.println("\n=== Listado de Artículos ===");
 		for(Articulo ele: daoArticulo.listarArticulos()) {
 			System.out.println(ele);
-		}
+		}   			
     }
+    
     /**
      * Exporta los artículos a un archivo CSV.
      *
