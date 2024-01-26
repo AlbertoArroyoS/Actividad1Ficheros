@@ -61,6 +61,8 @@ Descargo la biblioteca para utilizar Opencsv y añado el archivo jar al proyecto
 
 ![Imagen](imgReadme/image36.png)
 
+![Imagen](imgReadme/image44.png)
+
 ### Requerimiento 3
 
 No se permite duplicar el id del artículo.
