@@ -65,7 +65,7 @@ Descargo la biblioteca para utilizar Opencsv y añado el archivo jar al proyecto
 
 ![Imagen](imgReadme/image36.png)
 
-![Imagen](imgReadme/image44.png)
+![Imagen](imgReadme/image42.png)
 
 ### Requerimiento 3
 
