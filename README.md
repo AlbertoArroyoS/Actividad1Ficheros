@@ -5,9 +5,11 @@ Realizada por:
 **Alberto Arroyo Santofimia**
 
 https://github.com/AlbertoArroyoS/Actividad1Ficheros
+
 **Actividad1Ficheros_V2**
 
-Objetivos
+
+# Objetivos
 
 Aprender a trabajar de manera práctica los ficheros mediante una pequeña aplicación de gestión de un almacén.
 
