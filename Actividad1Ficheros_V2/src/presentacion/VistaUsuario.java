@@ -17,7 +17,7 @@ import persistencia.DaoArticulo;
  *
  * @author Alberto Arroyo Santofimia
  * 
- * @version v2.0
+ * @version v2.1
  */
 public class VistaUsuario {
 	
@@ -50,10 +50,10 @@ public class VistaUsuario {
 
 	            switch (opcion) {
 	                case 1://Añadir nuevo artículo
-	                	gestionAlmacen.addArticulo(daoArticulo,leer);
+	                	addArticulo(gestionAlmacen);
 	                	break;
 	                case 2://Borrar artículo por id
-	                	gestionAlmacen.borrarArticulo(daoArticulo,leer);
+	                	borrarArticulo(gestionAlmacen);
 	                    break;
 	                case 3://Consulta artículo por id	                	
 	                	gestionAlmacen.consultarPorId(daoArticulo,leer);	                	
@@ -113,6 +113,39 @@ public class VistaUsuario {
 		
 		return opcion;	
 	}
+    private static void addArticulo(GestionAlmacen gestionAlmacen) {
+    	System.out.println("Introduzca Id del articulo: ");
+    	int id = leer.nextInt();
+    	//Comprobamos si el id existe y en caso de que exista lo vuelve a pedir
+    	while (gestionAlmacen.existe(id)) {       	
+            System.out.println("Ya existe un artículo con el ID " + id + ". No se puede agregar.");
+            id = gestionAlmacen.obtenerEntero(leer, "Introduzca Id del articulo: ");
+        }
+    	leer.nextLine();
+    	System.out.println("Introduzca nombre del articulo: ");
+        String nombre = leer.nextLine();
+        System.out.println("Introduzca descripcion del articulo: ");
+        String descripcion = leer.nextLine();
+    	int stock = gestionAlmacen.obtenerEntero(leer,"Introduzca stock del articulo: ");
+    	System.out.println("Introduzca precio del articulo: ");
+    	double precio = leer.nextDouble();
+    	
+    	if(gestionAlmacen.addArticulo(id,nombre,descripcion,stock,precio)) {
+    		System.out.println("El articulo se ha añadido correctamente ");
+    	}else {
+    		System.out.println("El articulo NO se ha posido añadir");
+    	}
+    	
+    	
+    }
+    
+    private static void borrarArticulo(GestionAlmacen gestionAlmacen) {
+    	System.out.println("Introduzca el ID del artículo a borrar: ");
+        int idABorrar = leer.nextInt();
+        if(gestionAlmacen.borrarArticulo(idABorrar)) {
+        	System.out.println("Artículo con ID " + idABorrar + " borrado exitosamente.");
+        }              
+    }
     
 
 }

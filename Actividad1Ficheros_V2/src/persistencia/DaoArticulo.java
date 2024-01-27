@@ -93,22 +93,20 @@ public class DaoArticulo {
      * @param stock representa el stock del nuevo artículo.
      * @param precio representa el precio del nuevo artículo.
      */
-    public void agregarArticulo(int id, String nombre, String descripcion, int stock, double precio ) {
-    	
-    	
+    public boolean agregarArticulo(int id, String nombre, String descripcion, int stock, double precio ) {
+    	    	
         Articulo art = new Articulo();
-
-        art.setId(id);        
-        
-        art.setNombre(nombre);
-        
+        art.setId(id);                
+        art.setNombre(nombre);        
         art.setDescripcion(descripcion);
-
-        art.setStock(stock);
-        
+        art.setStock(stock);        
         art.setPrecio(precio);
         
-        articulos.add(art);      
+        if(articulos.add(art)) {
+        	return true;
+        }else {
+        	return false;
+        }
         
     }
     /**

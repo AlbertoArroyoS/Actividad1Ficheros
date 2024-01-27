@@ -12,7 +12,7 @@ import persistencia.DaoArticulo;
  * 
  * @author Alberto Arroyo Santofimia
  * 
- * @version v2.0
+ * @version v2.1
  */
 public class GestionAlmacen {
 	
@@ -23,24 +23,14 @@ public class GestionAlmacen {
      * @param daoArticulo representa la instancia de DaoArticulo utilizada para agregar el artículo.
      * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
      */
-    public void addArticulo(DaoArticulo daoArticulo, Scanner leer) {
-    	System.out.println("Introduzca Id del articulo: ");
-    	int id = leer.nextInt();
-    	while (daoArticulo.existeArticuloConID(id)) {
-        	
-            System.out.println("Ya existe un artículo con el ID " + id + ". No se puede agregar.");
-            id = obtenerEntero(leer, "Introduzca Id del articulo: ");
-        }
-    	leer.nextLine();
-    	System.out.println("Introduzca nombre del articulo: ");
-        String nombre = leer.nextLine();
-        System.out.println("Introduzca descripcion del articulo: ");
-        String descripcion = leer.nextLine();
-    	int stock = obtenerEntero(leer,"Introduzca stock del articulo: ");
-    	System.out.println("Introduzca precio del articulo: ");
-    	double precio = leer.nextDouble();
+    public boolean addArticulo(int id, String nombre, String descripcion, int stock, double precio) {
+    	DaoArticulo daoArticulo = new DaoArticulo();
     	
-        daoArticulo.agregarArticulo(id, nombre, descripcion, stock, precio);
+        if(daoArticulo.agregarArticulo(id, nombre, descripcion, stock, precio)) {
+        	return true;
+        }else {
+        	return false;
+        }
     }
     /**
      * Borra un artículo solicitando el ID al usuario.
@@ -48,14 +38,13 @@ public class GestionAlmacen {
      * @param daoArticulo La instancia de DaoArticulo utilizada para borrar el artículo.
      * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
      */
-    public void borrarArticulo(DaoArticulo daoArticulo, Scanner leer){
-    	System.out.println("Introduzca el ID del artículo a borrar: ");
-        int idABorrar = leer.nextInt();                  
-        ;
+    public boolean borrarArticulo(int idABorrar){
+    	                  
+    	DaoArticulo daoArticulo = new DaoArticulo();
         if (daoArticulo.borrarArticulo(idABorrar)) {
-        	System.out.println("Artículo con ID " + idABorrar + " borrado exitosamente.");
+        	return true;
         }else {
-        	System.out.println("No se encontró ningún artículo con el ID " + idABorrar);
+        	return false;
         }
     }
     /**
@@ -174,5 +163,16 @@ public class GestionAlmacen {
         }
         return valor;
     }
+    
+    public boolean existe(int id) {
+    	DaoArticulo daoArticulo = new DaoArticulo();
+    	if(daoArticulo.existeArticuloConID(id)) {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    }
+
     
 }
