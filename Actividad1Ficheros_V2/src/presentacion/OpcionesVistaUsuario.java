@@ -15,7 +15,7 @@ import negocio.GestionAlmacen;
 public class OpcionesVistaUsuario {
 	
 	/**
-     * Método que permite al usuario agregar un nuevo artículo al sistema.
+     * Método que pedirá al usuario los datos necesarios para agregar un nuevo artículo al sistema.
      *
      * @param gestionAlmacen representa la instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
      * @param leer representa Scanner utilizado para leer la entrada del usuario.
@@ -41,7 +41,7 @@ public class OpcionesVistaUsuario {
     	
     }
 	/**
-     * Método que permite al usuario borrar un artículo del sistema por su ID.
+     * Método que pedirá al usuario el id para borrar artículo correspondiente a ese Id del sistema.
      *
      * @param gestionAlmacen representa la instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
      * @param leer representa Scanner utilizado para leer la entrada del usuario.
