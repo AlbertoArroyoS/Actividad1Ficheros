@@ -21,9 +21,12 @@ public class GestionAlmacen {
 	/**
      * Agrega un nuevo artículo solicitando la información al usuario.
      *
-     * @param gestionAlmacen representa la instancia de GestionAlmacen utilizada para obtener información del usuario.
-     * @param daoArticulo representa la instancia de DaoArticulo utilizada para agregar el artículo.
-     * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
+     * @param id representa el identificador único del artículo.
+     * @param nombre representa el nombre del artículo.
+     * @param descripcion representa la descripción del artículo.
+     * @param stock representa la cantidad en stock del artículo.
+     * @param precio representa el precio del artículo.
+     * @return True si el artículo se agregó correctamente, false en caso contrario.
      */
     public boolean addArticulo(int id, String nombre, String descripcion, int stock, double precio) {
     	DaoArticulo daoArticulo = new DaoArticulo();
@@ -37,8 +40,8 @@ public class GestionAlmacen {
     /**
      * Borra un artículo solicitando el ID al usuario.
      *
-     * @param daoArticulo La instancia de DaoArticulo utilizada para borrar el artículo.
-     * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
+     * @param idABorrar representa el identificador del artículo a borrar.
+     * @return True si el artículo se borró correctamente, false en caso contrario.
      */
     public boolean borrarArticulo(int idABorrar){
     	                  
@@ -52,8 +55,8 @@ public class GestionAlmacen {
     /**
      * Consulta un artículo por su ID solicitando la información al usuario.
      *
-     * @param daoArticulo La instancia de DaoArticulo utilizada para consultar el artículo.
-     * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
+     * @param idAConsultar representa el identificador del artículo a consultar.
+     * @return El artículo consultado o null si no se encuentra.
      */
     public Articulo consultarPorId(int idAConsultar) {
     	DaoArticulo daoArticulo = new DaoArticulo();
@@ -68,9 +71,8 @@ public class GestionAlmacen {
     /**
      * Lista todos los artículos.
      *
-     * @param daoArticulo La instancia de DaoArticulo utilizada para listar los artículos.
+     * @return ArrayList de Articulo que contiene todos los artículos, o null si no hay artículos.
      */
-
     public ArrayList<Articulo> listarTodos() {
     	DaoArticulo daoArticulo = new DaoArticulo();
     	
@@ -89,7 +91,7 @@ public class GestionAlmacen {
     /**
      * Exporta los artículos a un archivo CSV.
      *
-     * @param daoArticulo La instancia de DaoArticulo utilizada para obtener la lista de artículos.
+     * @return 1 si la exportación fue exitosa, 2 si hubo un error, 3 si se produjo una excepción.
      */
     public int exportarCsv() {
     	DaoArticulo daoArticulo = new DaoArticulo();
@@ -110,7 +112,7 @@ public class GestionAlmacen {
     /**
      * Finaliza el programa y guarda la información en un archivo .dat.
      *
-     * @param daoArticulo La instancia de DaoArticulo utilizada para obtener la lista de artículos.
+     * @return True si la operación fue exitosa, false si hubo un error.
      */
     public boolean terminar() {
     	DaoArticulo daoArticulo = new DaoArticulo();
@@ -128,11 +130,13 @@ public class GestionAlmacen {
     //metodos para validar la entrada de datos
         
     /**
-     * Método para obtener un entero desde la entrada del usuario con manejo de excepciones.
-     *
+     * Método para validar un entero que obtenemos desde la entrada del usuario.
+     * Además, verifica si el número entero ingresado ya existe y solicita otro en caso afirmativo
+     * Y se controla la excepción si no se introduce un entero.
+     * 
      * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
      * @param mensaje representa el mensaje a mostrar al usuario para solicitar la entrada.
-     * @return Valor entero ingresado por el usuario.
+     * @return El número entero ingresado por el usuario, garantizando que no sea duplicado.
      */
     public int obtenerEntero(Scanner leer,String mensaje) {
         int valor = 0;
@@ -141,6 +145,11 @@ public class GestionAlmacen {
             try {
                 System.out.println(mensaje);
                 valor = leer.nextInt();
+                while (existe(valor)) {       	
+                    System.out.println("Ya existe un artículo con el ID " + valor + ". No se puede agregar.");
+                    System.out.println("Introduzca Id del articulo: ");
+                    valor = leer.nextInt();
+                }
                 entradaValida = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Ingrese un número entero.");
@@ -151,7 +160,7 @@ public class GestionAlmacen {
     }
     
     /**
-     * Método para obtener un double desde la entrada del usuario con manejo de excepciones.
+     * Método para validar un double que obtenemos desde la entrada del usuario con manejo de excepciones.
      *
      * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
      * @param mensaje representa el mensaje a mostrar al usuario para solicitar la entrada.
@@ -172,7 +181,12 @@ public class GestionAlmacen {
         }
         return valor;
     }
-    
+    /**
+     * Verifica si existe un artículo con el ID proporcionado.
+     *
+     * @param id representa el identificador del artículo a verificar.
+     * @return True si existe un artículo con el ID, false en caso contrario.
+     */
     public boolean existe(int id) {
     	DaoArticulo daoArticulo = new DaoArticulo();
     	if(daoArticulo.existeArticuloConID(id)) {
@@ -182,6 +196,9 @@ public class GestionAlmacen {
     		return false;
     	}
     }
+    /**
+     * Inicia los datos del almacén, creando el fichero si no existe.
+     */
     public void iniciarDatos() {
     	DaoArticulo daoArticulo = new DaoArticulo();
     	try {

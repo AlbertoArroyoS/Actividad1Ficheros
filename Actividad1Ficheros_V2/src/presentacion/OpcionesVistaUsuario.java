@@ -4,17 +4,26 @@ import java.util.Scanner;
 
 import entidad.Articulo;
 import negocio.GestionAlmacen;
-
+/**
+ * Clase que define las opciones disponibles para la interacción del usuario en la vista.
+ * Proporciona métodos para ejecutar distintas operaciones del sistema de gestión de almacén.
+ * 
+ * @author Alberto Arroyo Santofimia
+ * 
+ * @version v2.1
+ */
 public class OpcionesVistaUsuario {
 	
-	public static void opcion1(GestionAlmacen gestionAlmacen,Scanner leer) {   	
+	/**
+     * Método que permite al usuario agregar un nuevo artículo al sistema.
+     *
+     * @param gestionAlmacen representa la instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
+     * @param leer representa Scanner utilizado para leer la entrada del usuario.
+     */
+	public void opcion1(GestionAlmacen gestionAlmacen,Scanner leer) {   	
 
         System.out.println();
         int id = gestionAlmacen.obtenerEntero(leer,"Introduzca Id del articulo: ");
-        while (gestionAlmacen.existe(id)) {       	
-            System.out.println("Ya existe un artículo con el ID " + id + ". No se puede agregar.");
-            id = gestionAlmacen.obtenerEntero(leer, "Introduzca Id del articulo: ");
-        }
     	leer.nextLine();
     	System.out.println("Introduzca nombre del articulo: ");
         String nombre = leer.nextLine();
@@ -31,16 +40,27 @@ public class OpcionesVistaUsuario {
     	
     	
     }
-    
-	public static void opcion2(GestionAlmacen gestionAlmacen,Scanner leer) {
+	/**
+     * Método que permite al usuario borrar un artículo del sistema por su ID.
+     *
+     * @param gestionAlmacen representa la instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
+     * @param leer representa Scanner utilizado para leer la entrada del usuario.
+     */
+	public void opcion2(GestionAlmacen gestionAlmacen,Scanner leer) {
     	System.out.println("Introduzca el ID del artículo a borrar: ");
         int idABorrar = leer.nextInt();
         if(gestionAlmacen.borrarArticulo(idABorrar)) {
         	System.out.println("Artículo con ID " + idABorrar + " borrado exitosamente.");
         }              
     }
-    
-    public static void opcion3(GestionAlmacen gestionAlmacen,Scanner leer) {
+	
+	/**
+     * Método que permite al usuario consultar la información de un artículo por su ID.
+     *
+     * @param gestionAlmacen representa la instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
+     * @param leer representa Scanner utilizado para leer la entrada del usuario.
+     */
+    public void opcion3(GestionAlmacen gestionAlmacen,Scanner leer) {
     	System.out.println("Introduzca el ID del artículo a consultar: ");
         int idAConsultar = leer.nextInt();
         Articulo articuloAConsultar = gestionAlmacen.consultarPorId(idAConsultar);
@@ -56,7 +76,13 @@ public class OpcionesVistaUsuario {
     		System.out.println("No se encontró ningún artículo con el ID " + idAConsultar);
     	}
     }
-    public static void opcion4(GestionAlmacen gestionAlmacen,Scanner leer) {
+    /**
+     * Método que lista todos los artículos almacenados en el sistema.
+     *
+     * @param gestionAlmacen representa la instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
+     * @param leer representa Scanner utilizado para leer la entrada del usuario.
+     */
+    public void opcion4(GestionAlmacen gestionAlmacen,Scanner leer) {
     	if(gestionAlmacen.listarTodos() == null) {
     		System.out.println("\n=== NO existe ningún Artículo en el almacen ===");
     	}
@@ -67,8 +93,13 @@ public class OpcionesVistaUsuario {
     		}
     	}
     }
-    
-    public static void opcion5(GestionAlmacen gestionAlmacen,Scanner leer) {
+    /**
+     * Método que exporta los artículos a un archivo CSV.
+     *
+     * @param gestionAlmacen representa la instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
+     * @param leer representa Scanner utilizado para leer la entrada del usuario.
+     */
+    public void opcion5(GestionAlmacen gestionAlmacen,Scanner leer) {
     	System.out.println("Exportando artículos a archivo CSV...");    	
     	switch (gestionAlmacen.exportarCsv()) {
 	    	case 1:
@@ -84,8 +115,13 @@ public class OpcionesVistaUsuario {
 	        	System.out.println("Error al exportar el archivo CSV");        	
 	    	}
     }
-    
-    public static void opcion6(GestionAlmacen gestionAlmacen,Scanner leer) {
+    /**
+     * Método que termina el programa y guarda la información en el archivo .dat.
+     *
+     * @param gestionAlmacen representa la Instancia de la clase GestionAlmacen utilizada para realizar operaciones en el almacén.
+     * @param leer representa Scanner utilizado para leer la entrada del usuario.
+     */
+    public void opcion6(GestionAlmacen gestionAlmacen,Scanner leer) {
     	if(gestionAlmacen.terminar()== true) {
     		System.out.println("Información guardada correctamente en el archivo.");
     	}else {

@@ -3,19 +3,17 @@ package presentacion;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
-
-import entidad.Articulo;
 import negocio.GestionAlmacen;
-import persistencia.DaoArticulo;
+
 /**
  * La clase VistaUsuario proporciona una interfaz de usuario simple para gestionar
  * artículos utilizando un menú interactivo. Permite realizar operaciones como agregar,
  * borrar, consultar, listar, exportar a CSV y terminar el programa.
  *
- * La clase utiliza instancias de las clases DaoArticulo y GestionAlmacen para realizar
- * operaciones en el sistema de gestión de artículos.
+ * La clase utiliza instancias de la GestionAlmacen para realizar
+ * operaciones en el sistema de gestión de artículos y de la clase OpcionesVistausuario
+ * donde se encuentran los métodos de cada una de las opciones del menú.
  *
  * @author Alberto Arroyo Santofimia
  * 

@@ -16,13 +16,13 @@ import com.opencsv.CSVWriter;
 import entidad.Articulo;
 
 /**
- * La clase DaoArticulo gestiona los datos relacionados con los
+ * La clase DaoArticulo gestiona la persistencia y manipulación de los datos relacionados con los
  * artículos en un sistema de gestión de almacén. Utiliza un archivo .dat para almacenar
  * y recuperar la información de los artículos.
  * 
  * @author Alberto Arroyo Santofimia
  * 
- * @version v2.0
+ * @version v2.1
  */
 public class DaoArticulo {
 	
@@ -35,8 +35,8 @@ public class DaoArticulo {
 
 		
 	/**
-     * Crea el archivo .dat si no existe y si existe, llama al metodo cargarArticulosDesdeArchivo()
-     * que se encarga de carga los artículos desde un archivo .dat
+     * Crea el archivo .dat si no existe y si existe, llama al método cargarArticulosDesdeArchivo()
+     * que se encarga de cargar los artículos desde un archivo .dat.
      *
      * @throws IOException Si ocurre un error de entrada/salida.
      */
@@ -92,6 +92,7 @@ public class DaoArticulo {
      * @param descripcion representa la descripción del nuevo artículo.
      * @param stock representa el stock del nuevo artículo.
      * @param precio representa el precio del nuevo artículo.
+     * @return "true" si el artículo se agrega exitosamente, "false" en caso contrario.
      */
     public boolean agregarArticulo(int id, String nombre, String descripcion, int stock, double precio ) {
     	    	
@@ -246,6 +247,7 @@ public class DaoArticulo {
      *
      * @param articulos representa el ArrayList de objetos Articulo a exportar.
      */
+    /*
     public void exportarArticulosCSV2(ArrayList<Articulo> articulos) {
         //System.out.println("Exportando artículos a archivo CSV...");
 
@@ -269,7 +271,8 @@ public class DaoArticulo {
             System.out.println("Error al exportar artículos a archivo CSV.");
             e.printStackTrace();
         }
-    }
+    }*/
+    
     /**
      * Guarda la información en un archivo .dat y termina el programa.
      *
