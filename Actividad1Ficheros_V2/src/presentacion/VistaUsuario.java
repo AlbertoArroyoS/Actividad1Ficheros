@@ -3,8 +3,10 @@ package presentacion;
 
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import entidad.Articulo;
 import negocio.GestionAlmacen;
 import persistencia.DaoArticulo;
 /**
@@ -32,12 +34,10 @@ public class VistaUsuario {
 }
 
 	public static void main(String[] args) throws IOException {
-		DaoArticulo daoArticulo = new DaoArticulo();
 		GestionAlmacen gestionAlmacen = new GestionAlmacen();
-		//llamo al metodo para verificar si existe el fichero artículos.dat y si no, lo crea
-    	daoArticulo.crearFichero();
-    	
-    	
+		OpcionesVistaUsuario opcionesMetodos = new OpcionesVistaUsuario();
+		gestionAlmacen.iniciarDatos();
+	
     	boolean continuar = true;
 
         do {
@@ -50,22 +50,22 @@ public class VistaUsuario {
 
 	            switch (opcion) {
 	                case 1://Añadir nuevo artículo
-	                	addArticulo(gestionAlmacen);
+	                	opcionesMetodos.opcion1(gestionAlmacen,leer);
 	                	break;
 	                case 2://Borrar artículo por id
-	                	borrarArticulo(gestionAlmacen);
+	                	opcionesMetodos.opcion2(gestionAlmacen,leer);
 	                    break;
 	                case 3://Consulta artículo por id	                	
-	                	gestionAlmacen.consultarPorId(daoArticulo,leer);	                	
+	                	opcionesMetodos.opcion3(gestionAlmacen,leer);	                	
 	                    break;
 	                case 4://Listado de todos
-	                	gestionAlmacen.listarTodos(daoArticulo);		                			
+	                	opcionesMetodos.opcion4(gestionAlmacen,leer);		                			
 	                    break;
 	                case 5://Exportar a CSV
-	                	gestionAlmacen.exportarCsv(daoArticulo);
+	                	opcionesMetodos.opcion5(gestionAlmacen,leer);
 	                    break;
 	                case 6://Terminar el programa y guardar en el .dat
-	                	gestionAlmacen.terminar(daoArticulo);
+	                	opcionesMetodos.opcion6(gestionAlmacen,leer);
 	                	continuar=false;
 	                    break;
 	                default:
@@ -113,39 +113,5 @@ public class VistaUsuario {
 		
 		return opcion;	
 	}
-    private static void addArticulo(GestionAlmacen gestionAlmacen) {
-    	System.out.println("Introduzca Id del articulo: ");
-    	int id = leer.nextInt();
-    	//Comprobamos si el id existe y en caso de que exista lo vuelve a pedir
-    	while (gestionAlmacen.existe(id)) {       	
-            System.out.println("Ya existe un artículo con el ID " + id + ". No se puede agregar.");
-            id = gestionAlmacen.obtenerEntero(leer, "Introduzca Id del articulo: ");
-        }
-    	leer.nextLine();
-    	System.out.println("Introduzca nombre del articulo: ");
-        String nombre = leer.nextLine();
-        System.out.println("Introduzca descripcion del articulo: ");
-        String descripcion = leer.nextLine();
-    	int stock = gestionAlmacen.obtenerEntero(leer,"Introduzca stock del articulo: ");
-    	System.out.println("Introduzca precio del articulo: ");
-    	double precio = leer.nextDouble();
-    	
-    	if(gestionAlmacen.addArticulo(id,nombre,descripcion,stock,precio)) {
-    		System.out.println("El articulo se ha añadido correctamente ");
-    	}else {
-    		System.out.println("El articulo NO se ha posido añadir");
-    	}
-    	
-    	
-    }
     
-    private static void borrarArticulo(GestionAlmacen gestionAlmacen) {
-    	System.out.println("Introduzca el ID del artículo a borrar: ");
-        int idABorrar = leer.nextInt();
-        if(gestionAlmacen.borrarArticulo(idABorrar)) {
-        	System.out.println("Artículo con ID " + idABorrar + " borrado exitosamente.");
-        }              
-    }
-    
-
 }

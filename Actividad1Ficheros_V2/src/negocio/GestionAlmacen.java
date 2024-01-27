@@ -1,5 +1,7 @@
 package negocio;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import entidad.Articulo;
@@ -53,51 +55,55 @@ public class GestionAlmacen {
      * @param daoArticulo La instancia de DaoArticulo utilizada para consultar el artículo.
      * @param leer representa la Instancia de Scanner utilizada para leer la entrada del usuario.
      */
-    public void consultarPorId(DaoArticulo daoArticulo, Scanner leer) {
-    	System.out.println("Introduzca el ID del artículo a consultar: ");
-        int idAConsultar = leer.nextInt();
+    public Articulo consultarPorId(int idAConsultar) {
+    	DaoArticulo daoArticulo = new DaoArticulo();
         Articulo articuloAConsultar = daoArticulo.consultarArticulo(idAConsultar);
-    	if(articuloAConsultar!=null) {
-    		// Se encontró el artículo, mostrar su información
-            System.out.println("=== Información del Artículo ===");
-            System.out.println("ID: " + articuloAConsultar.getId());
-            System.out.println("Nombre: " + articuloAConsultar.getNombre());
-            System.out.println("Descripción: " + articuloAConsultar.getDescripcion());
-            System.out.println("Stock: " + articuloAConsultar.getStock());
-            System.out.println("Precio: " + articuloAConsultar.getPrecio());
-    	}else {
-    		System.out.println("No se encontró ningún artículo con el ID " + idAConsultar);
-    	}
+        if (articuloAConsultar!= null) {
+        	return articuloAConsultar;
+        }else {
+        	return null;
+        }
+    	
     }
     /**
      * Lista todos los artículos.
      *
      * @param daoArticulo La instancia de DaoArticulo utilizada para listar los artículos.
      */
-    public void listarTodos(DaoArticulo daoArticulo) {
 
-		System.out.println("\n=== Listado de Artículos ===");
+    public ArrayList<Articulo> listarTodos() {
+    	DaoArticulo daoArticulo = new DaoArticulo();
+    	
+    	ArrayList<Articulo> listaAuxiliar = new ArrayList<>();
+    	
 		for(Articulo ele: daoArticulo.listarArticulos()) {
-			System.out.println(ele);
-		}   			
-    }
+			listaAuxiliar.add(ele);
+		}
+		if(listaAuxiliar.isEmpty()) {
+			return null;
+		}else {
+			return listaAuxiliar;
+		}
+	}
     
     /**
      * Exporta los artículos a un archivo CSV.
      *
      * @param daoArticulo La instancia de DaoArticulo utilizada para obtener la lista de artículos.
      */
-    public void exportarCsv(DaoArticulo daoArticulo) {
-    	System.out.println("Exportando artículos a archivo CSV...");
+    public int exportarCsv() {
+    	DaoArticulo daoArticulo = new DaoArticulo();
     	try {
     		if(daoArticulo.exportarArticulosCSV(daoArticulo.devolverArrayList())) {
-    			System.out.println("Artículos exportados correctamente");
+    			
+    			return 1;
     		}else {
-    			System.out.println("Error al exportar artículos a archivo CSV.");
-    		}
+    			
+    			return 2;
+    		}	                	
+    	}catch (Exception e){
     		
-;	                	}catch (Exception e){
-    		System.out.println("El archivo csv ya existe");
+    		return 3;
     	}
     	
     }
@@ -106,11 +112,14 @@ public class GestionAlmacen {
      *
      * @param daoArticulo La instancia de DaoArticulo utilizada para obtener la lista de artículos.
      */
-    public void terminar(DaoArticulo daoArticulo) {
+    public boolean terminar() {
+    	DaoArticulo daoArticulo = new DaoArticulo();
     	if(daoArticulo.guardarDat(daoArticulo.devolverArrayList())){
-    		System.out.println("Información guardada correctamente en el archivo.");
+    		
+    		return true;
     	}else {
-    		System.out.println("Programa terminado.");
+    		
+    		return false;
     	}
         
     }
@@ -135,7 +144,7 @@ public class GestionAlmacen {
                 entradaValida = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Ingrese un número entero.");
-               
+                leer.nextLine();            
             }
         }
         return valor;
@@ -158,7 +167,7 @@ public class GestionAlmacen {
                 entradaValida = true;
             } catch (InputMismatchException e) {
                 System.out.println("Entrada no válida. Ingrese un número decimal.");
-               
+                leer.nextLine(); 
             }
         }
         return valor;
@@ -173,6 +182,15 @@ public class GestionAlmacen {
     		return false;
     	}
     }
-
+    public void iniciarDatos() {
+    	DaoArticulo daoArticulo = new DaoArticulo();
+    	try {
+			daoArticulo.crearFichero();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
     
 }

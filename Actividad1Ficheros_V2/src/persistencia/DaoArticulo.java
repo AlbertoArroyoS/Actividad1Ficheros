@@ -161,6 +161,20 @@ public class DaoArticulo {
             return null;
         }
     }
+    /**
+     * Verifica si existe un artículo con un ID específico en el ArrayList existente.
+     *
+     * @param id representa el ID del artículo a verificar.
+     * @return "true" si el artículo existe, "false" si no existe.
+     */
+    public boolean existeArticuloConID(int id) {
+        for (Articulo articulo : articulos) {
+            if (articulo.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Lista todos los artículos almacenados.
@@ -175,20 +189,7 @@ public class DaoArticulo {
         }
         return listaAuxiliar;
     }
-    /**
-     * Verifica si existe un artículo con un ID específico.
-     *
-     * @param id representa el ID del artículo a verificar.
-     * @return "true" si el artículo existe, "false" si no existe.
-     */
-    public boolean existeArticuloConID(int id) {
-        for (Articulo articulo : articulos) {
-            if (articulo.getId() == id) {
-                return true;
-            }
-        }
-        return false;
-    }
+    
     /**
      * Devuelve la lista de artículos como un ArrayList.
      *
