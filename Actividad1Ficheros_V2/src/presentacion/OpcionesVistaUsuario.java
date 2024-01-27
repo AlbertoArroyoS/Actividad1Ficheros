@@ -124,8 +124,9 @@ public class OpcionesVistaUsuario {
     public void opcion6(GestionAlmacen gestionAlmacen,Scanner leer) {
     	if(gestionAlmacen.terminar()== true) {
     		System.out.println("Información guardada correctamente en el archivo.");
-    	}else {
     		System.out.println("Programa terminado.");
+    	}else {
+    		System.out.println("Ha ocurrido un error al guardar el archivo.");
     	}
     	
     }
