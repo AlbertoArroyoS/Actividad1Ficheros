@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+import modelo.negocio.GestorUsuario;
+import modelo.presentacion.opciones.OpcionesVista;
+
 public class VistaUsuario {
 	
 	private static Scanner leer;
@@ -14,8 +17,9 @@ public class VistaUsuario {
 	}
 
 	public static void main(String[] args) {
-		String nombreUsuario;
-		String passUsuario;
+		
+		OpcionesVista opciones = new OpcionesVista();
+		opciones.iniciarPrograma();
 
 		boolean continuar = true;
 		
@@ -23,45 +27,21 @@ public class VistaUsuario {
         	//Cargamos el menu inicial y recuperamos la opción elegida
 			int opcion = menu();
 			//Si la opcion está fuera del rango de opciones se repetira el menu
-			while (opcion<1 || opcion>3){
+			while (opcion<1 || opcion>4){
 				opcion = menu();
 			}
 
 	            switch (opcion) {
 	                case 1://login del usuario, lectura del archivo
-	                	System.out.println("Nombre de usuario");
-	            		nombreUsuario = leer.next();
-	            		System.out.println("Contraseña");
-	            		passUsuario = leer.next();
-	                	if (verificarCredenciales(nombreUsuario, passUsuario)) {
-	                        System.out.println("¡Bienvenido, " + nombreUsuario + "!");
-	                    } else {
-	                    	
-	                        System.out.println("Usuario o contraseña incorrectos.");
-	                    }
+	                	opciones.opcion1(leer);
 	                    break;
 	                case 2://nuevo usuario, escritura del archivo si no existe ya
-	                	System.out.println("Nombre de usuario");
-	                    nombreUsuario = leer.next();
-	                    System.out.println("Contraseña");
-	                    passUsuario = leer.next();
-
-	                    // Verificar si el usuario ya existe y si no existe lo escribo en el archivo
-	                    if (usuarioExistente(nombreUsuario)) {
-	                        System.out.println("El usuario ya existe. No se puede crear.");
-	                    } else {
-	                        try (FileWriter fw = new FileWriter(NOMBRE_FICHERO, true);
-	                             BufferedWriter pw = new BufferedWriter(fw);) {
-	                            // Si ponemos (nombreFichero,true) add en vez de borrar
-	                            pw.write(nombreUsuario + "/" + passUsuario);
-	                            pw.newLine();
-	                            System.out.println("Datos escritos en el archivo correctamente.");
-	                        } catch (IOException e) {
-	                            e.printStackTrace();
-	                        }
-	                    }
+	                	opciones.opcion2(leer);
 	                    break;
 	                case 3:
+	                	opciones.opcion3();
+	                    break;
+	                case 4:
 	                	System.out.println("Programa terminado");
 	                    continuar=false;
 	                    break;
@@ -71,19 +51,14 @@ public class VistaUsuario {
 			
         } while (continuar);
 		
-		
-		//verifico si el usuario y la contraseña introducidos ya estan en el txt
-		
-		
 
         // Cierro el scanner
         if (leer != null) {
             leer.close();
         }
 				
-
-	}
 }
+
 
 public static int menu() {
 	
@@ -93,9 +68,10 @@ public static int menu() {
 	System.out.println("----------------------------------------------------");
 	System.out.println("1. Login de usuario");
 	System.out.println("2. Añadir nuevo usuario ");
-	System.out.println("3. Terminar el programa");
+	System.out.println("3. Lista de usuarios registrados ");
+	System.out.println("4. Terminar el programa");
 	System.out.println("----------------------------------------------------");
-	System.out.println("Introduzca una opción del 1 al 3, si quiere salir 3");
+	System.out.println("Introduzca una opción del 1 al 4, si quiere salir 4");
 	System.out.println("----------------------------------------------------");
 	
 	try {
@@ -107,12 +83,16 @@ public static int menu() {
         leer.next(); // Limpiar el búfer de entrada para evitar un bucle infinito
     }
 	
-	if (opcion<1 || opcion > 3) {
+	if (opcion<1 || opcion > 4) {
 		System.out.println("OPCION INCORRECTA");
 	}
 	
 	return opcion;	
+	}
+
 }
 	
 
-}
+	
+
+
