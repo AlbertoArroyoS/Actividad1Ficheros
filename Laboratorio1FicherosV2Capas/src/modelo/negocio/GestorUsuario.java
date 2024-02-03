@@ -10,12 +10,15 @@ import modelo.persistencia.interfaces.DaoUsuario;
 
 public class GestorUsuario {
 	
+
 	/**
 	 * Método que valida si un usuario puede acceder a nuestro sistema
-	 * @param usuario que queremos validar, tiene que venir relleno
-	 * @return 1 en el caso de que el nombre coincida, 2 en caso de que el usuario y el password coincidan con
-	 * el usuario y password almacenado, 0 en caso de que el usuario
-	 * no exista o el usuario y password no coincidan
+	 * 
+	 * @param usuario El objeto Usuario a ser validado.
+	 * @return Entero que indica el resultado de la validación:
+	 *         - 2 si el usuario y la contraseña coinciden.
+	 *         - 1 si el nombre de usuario ya existe.
+	 *         - 0 si el usuario no fue encontrado o no coincide la contraseña.
 	 */
 	public int validarUsuario(Usuario usuario) {
 		DaoUsuario daoUsuario = new DaoUsuarioFicheros();
@@ -58,7 +61,15 @@ public class GestorUsuario {
 		DaoUsuario daoUsuario = new DaoUsuarioFicheros();
 		return daoUsuario.listarTodosUsuarios();
 	}
-	
+	/**
+	 * Inicia el proceso de creación del fichero de almacenamiento de usuarios utilizando
+	 * un objeto DaoUsuario con implementación de ficheros.
+	 *
+	 * @return Entero que indica el resultado de la creación del fichero:
+	 *         - 1 si el fichero se creó exitosamente.
+	 *         - 2 si hubo un error al intentar crear el fichero.
+	 *         - 3 si el fichero ya existe.
+	 */
 	public int iniciarFichero() {
 		DaoUsuario daoUsuario = new DaoUsuarioFicheros();		
 		int crearFichero = daoUsuario.crearFichero();

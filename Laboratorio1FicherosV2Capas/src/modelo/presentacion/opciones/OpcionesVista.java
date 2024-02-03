@@ -10,6 +10,12 @@ import modelo.negocio.GestorUsuario;
 public class OpcionesVista {
 	
 	//login del usuario
+	/**
+     * Realiza la opción de inicio de sesión del usuario.Comprueba si el nombre y la contraseña están en el
+     * archivo txt
+     *
+     * @param leer Scanner utilizado para la entrada de datos.
+     */
 	public void opcion1(Scanner leer) {
 		GestorUsuario gestor= new GestorUsuario();
 		Usuario usuarioAuxiliar =introducirDatos(leer);		
@@ -22,6 +28,12 @@ public class OpcionesVista {
 			
 	}
 	//nuevo usuario, escritura del archivo si no existe ya
+	/**
+     * Realiza la opción de crear un nuevo usuario , comprueba si ya existe ese nombre
+     * y en caso de que no existe lo añade .
+     *
+     * @param leer Scanner utilizado para la entrada de datos.
+     */
 	public void opcion2(Scanner leer) {
 		GestorUsuario gestor= new GestorUsuario();
 		Usuario usuarioAuxiliar = introducirDatos(leer);
@@ -34,6 +46,9 @@ public class OpcionesVista {
 		
 	}
 	//listar las usuarios
+	/**
+     * Lista todos los usuarios registrados.
+     */
 	public void opcion3() {
 		GestorUsuario gestor= new GestorUsuario();
 		List<Usuario> listaAuxiliar = gestor.usuariosRegistrados();
@@ -50,7 +65,12 @@ public class OpcionesVista {
 		}	
 		
 	}
-	
+	/**
+     * Introduce los datos del usuario mediante la entrada estándar.
+     *
+     * @param leer Scanner utilizado para la entrada de datos.
+     * @return Usuario creado con los datos introducidos.
+     */
 	public Usuario introducirDatos(Scanner leer) {
 		Usuario usuarioAuxiliar = new Usuario();
 		System.out.println("Nombre de usuario");
@@ -63,7 +83,9 @@ public class OpcionesVista {
 		
 	}
 	//metodos al iniciar el programa, de momento llamamos al metodos para crear el archivo
-	
+	/**
+     * Inicia el programa, llamando al método para crear el archivo y muestra mensajes según el resultado.
+     */
 	public void iniciarPrograma() {
 		GestorUsuario gestor= new GestorUsuario();
 		int crearFichero= gestor.iniciarFichero();
